@@ -1,14 +1,14 @@
 Package: DREAM4
 Type: Package
 Title: Synthetic Expression Data for Gene Regulatory Network Inference from the 2009 DREAM4 challenge
-Version: 1.3.0
+Version: 1.3.1
 Date: 2013-03-15
 Author: Paul Shannon
 Maintainer: Paul Shannon <pshannon@fhcrc.org>
 Depends: R (>= 2.15.1), GenomicRanges
 Imports: BiocGenerics
 Suggests: RUnit, networkBMA
-biocViews: RNAExpressionData, NetworkInference
+biocViews: RNASeqData, ExperimentData, Genome, Saccharomyces_cerevisiae_Data, SequencingData
 Description: Simulated expression data for five 10-node, and five 100-node networks, with associated data 
   (including solutions) from the 2009 DREAM4 challenge.
 License: GPL
