@@ -50,12 +50,12 @@ dual-knockout, multifactorial perturbations, time series, etc.)
 }
 
 
-Each dataset is a SummarizedExperiment object, consisting of these slots:
+Each dataset is a RangedSummarizedExperiment object, consisting of these slots:
 \itemize{
     \item one assay (with one row per gene, and one column for each
   simulated condition, about which more below).
 
-    \item a rowData object, a GRangesList, with one element for each row
+    \item a rowRanges object, a GRangesList, with one element for each row
   in the assay expression matrix. At present the
     only useful information is the 'gene' name; no metadata or futher
   description is offered.
@@ -67,7 +67,7 @@ Each dataset is a SummarizedExperiment object, consisting of these slots:
   perturbation and timeseries metadata from these DataFrames.  That
   information is currently only implicit in the names.
 
-   \item Two matrices are found in the exptData slot:  the
+   \item Two matrices are found in the metadata slot:  the
    goldStandardAdjacencyMatrix and doubleKnockoutGenePairs.
    
 
@@ -108,12 +108,12 @@ We use the following conventions to label the columns:
 
 \examples{
 library(DREAM4)
-library(GenomicRanges)
+library(SummarizedExperiment)
 data(dream4_010_01)
 names(assays(dream4_010_01))
 expressionData <- assays(dream4_010_01)$simulated
-names(exptData(dream4_010_01))
-goldStandardMatrix <- exptData(dream4_010_01)$goldStandardAdjacencyMatrix
+names(metadata(dream4_010_01))
+goldStandardMatrix <- metadata(dream4_010_01)$goldStandardAdjacencyMatrix
 
 }
 \keyword{datasets}

@@ -1,1 +1,0 @@
-importMethodsFrom(GenomicRanges, assays, rowData, colData, exptData)

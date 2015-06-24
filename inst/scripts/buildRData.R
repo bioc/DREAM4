@@ -1,5 +1,5 @@
 library(RUnit)
-library(GenomicRanges)
+library(SummarizedExperiment)
 #-------------------------------------------------------------------------------
 runTests <- function()
 {
@@ -148,9 +148,9 @@ buildDream4SummarizedExperiment <- function(sourceDirectory)
     for(r in 1:nrow(x))
       gs [x$G1[r], x$G2[r]] <- 1
 
-    exptData(sumexp) <- SimpleList(goldStandardAdjacencyMatrix=gs)
+    metadata(sumexp) <- list(goldStandardAdjacencyMatrix=gs)
 
-    exptData(sumexp) [['doubleKnockoutGenePairs']] <- tbl.dk
+    metadata(sumexp) [['doubleKnockoutGenePairs']] <- tbl.dk
 
     invisible(sumexp)
 
@@ -162,17 +162,17 @@ test_buildDream4SummarizedExperimentSize_10 <- function(sourceDir)
 
     se <- buildDream4SummarizedExperiment(sourceDirectory=sourceDir)
 
-    checkEquals(sort(slotNames(se)), c("assays", "colData", "exptData",
-                                       "rowData"))
+    #checkEquals(sort(slotNames(se)), c("assays", "colData", "metadata",
+    #                                   "rowRanges"))
 
     mtx.expr <- assays(se)[[1]]
     checkEquals(dim(mtx.expr), c(10, 136))  
 
     column.data <- colData(se)   # column meta data for possibly multiple
                                  # assay matrices are all shared
-    row.data <- rowData(se)      # row meta data for possibly multiple assay
+    row.data <- rowRanges(se)      # row meta data for possibly multiple assay
                                  # matrices are all shared
-    experiment.data <- exptData(se)
+    experiment.data <- metadata(se)
 
     checkEquals(nrow(column.data), ncol(mtx.expr))
     checkEquals(names(row.data), rownames(mtx.expr))
@@ -186,8 +186,8 @@ test_buildDream4SummarizedExperimentSize_100 <- function(sourceDir)
 {
     print('--- test.build.dream4.summarizedExperiment.sizd.100')
     se <- buildDream4SummarizedExperiment(sourceDirectory=sourceDir)
-    checkEquals(sort(slotNames(se)), c("assays", "colData", "exptData",
-                                       "rowData"))
+    #checkEquals(sort(slotNames(se)), c("assays", "colData", "metadata",
+    #                                   "rowRanges"))
     mtx.expr <- assays(se)[[1]]
     checkEquals(dim(mtx.expr), c(100, 511))
       # check these columns.  there should be 21 for each perturbation,
@@ -196,9 +196,9 @@ test_buildDream4SummarizedExperimentSize_100 <- function(sourceDir)
 
     column.data <- colData(se)   # column meta data for possibly multiple
                                  # assay matrices are all shared
-    row.data <- rowData(se)      # row meta data for possibly multiple assay
+    row.data <- rowRanges(se)      # row meta data for possibly multiple assay
                                  # matrices are all shared
-    experiment.data <- exptData(se)
+    experiment.data <- metadata(se)
   
     checkEquals(nrow(column.data), ncol(mtx.expr))
     checkEquals(names(row.data), rownames(mtx.expr))

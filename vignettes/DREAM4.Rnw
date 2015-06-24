@@ -210,7 +210,7 @@ DNAseI footprinting, and methylation data simply do not exist.
 
 
 
-\subsection{As repackaged into Bioc \Rclass{SummarizedExperiment}s}
+\subsection{As repackaged into Bioc \Rclass{RangedSummarizedExperiment}s}
 
 There are ten artifical gene regulatory datasets in DREAM4, five describing
 networks of 10 nodes, five describing networks of 100.  These networks are
@@ -223,8 +223,8 @@ to the data object which has the corresponding gold standard matrix and
 expression data.)
 
 
-We use the Bioconductor \Rclass{SummarizedExperiment} class from the 
-\Rpackage{GenomicRanges} package to store the DREAM4 data.  We provide
+We use the Bioconductor \Rclass{RangedSummarizedExperiment} class from the 
+\Rpackage{SummarizedExperiment} package to store the DREAM4 data.  We provide
 ten instances, one for each simulated data set. Each can be loaded
 via a \Rfunction{data} statement, for instance:
 
@@ -232,7 +232,7 @@ via a \Rfunction{data} statement, for instance:
 > data(dream4_010_01)
 \end{verbatim}
 
-We examine this dataset, loading its \Rclass{SummarizedExperiment} object 
+We examine this dataset, loading its \Rclass{RangedSummarizedExperiment} object 
 into an R session, then getting a brief summary via the \Rfunction{show} command.
 
 But first, some initializations: a convenience function for printing, and a
@@ -255,19 +255,19 @@ This tells us that \Robject{dream4\_010\_01} has
    \item  One assay matrix  called \emph{simulated} with 10 rows and 136 columns
    \item  10 row names:  \emph{G1} - \emph{G10}
    \item  136 column names: \emph{wt}, \emph{perturbation.t0}, \emph{...} \emph{MF.9}, \emph{MF.10}
-   \item  No metadata for rows or columns (\emph{rowData} and \emph{colData} are both empty)
-   \item  Two objects in \emph{exptData}: the gold standard matrix, and double knockout data
+   \item  No metadata for rows or columns (\emph{rowRanges} and \emph{colData} are both empty)
+   \item  Two objects in \emph{metadata}: the gold standard matrix, and double knockout data
 \end{packed_list}
 
-The standard Bioconductor \Rclass{SummarizedExperiment} class, when
+The standard Bioconductor \Rclass{RangedSummarizedExperiment} class, when
 used to hold real experimental data, encourages the storage of
 experiment metadata with the experimental measurements.
 This facilitates reproducibility, reanalysis and simplified data
 storage.  However this class is, in one regard, a slightly awkward
 fit to the DREAM4 data: the timeseries, knockout, knockdown, double
 knockout and multiparameter measurements all have different
-dimensions.  \Rclass{SummarizedExperiments} can only ``stack up'' multiple
-measurement arrays if their dimensions are the same.  We
+dimensions.  \Rclass{RangedSummarizedExperiments} can only ``stack up''
+multiple measurement arrays if their dimensions are the same.  We
 have worked around this restriction by combining all of the matrices in
 each simulation into a single \Robject{assay} matrix.  We use
 column names which allow for the easy extraction of the original matrices,
@@ -303,10 +303,10 @@ knowledge confers: the first inference run uses no priors, while the second
 run does.
 
 The gold standard adjacency matrix is stored as the first element in the 
-exptData (or ``experimentData'' slot) of the SummarizedExperiment:
+metadata (or ``metadata'' slot) of the RangedSummarizedExperiment:
 
 <<retrieveExpressionData>>=
-mtx.goldStandard <- exptData (dream4_010_01)[[1]]
+mtx.goldStandard <- metadata (dream4_010_01)[[1]]
 @ 
 
 We want to extract only one of the ten perturbation timeseries included
@@ -346,8 +346,8 @@ print(mtx.ts1[1:3, 1:3])
 Extract the gold standard matrix, convert it successively to a graphAM, then a graphNEL,
 and display it with RCytoscape.
 <<extractGoldStandard>>=
-print(names(exptData(dream4_010_01)))
-mtx.goldStandard <- exptData(dream4_010_01)[[1]]
+print(names(metadata(dream4_010_01)))
+mtx.goldStandard <- metadata(dream4_010_01)[[1]]
 @ 
 Transform the gold standard matrix into an explict table of regulators and targets.
 
