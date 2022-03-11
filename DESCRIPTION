@@ -1,7 +1,7 @@
 Package: DREAM4
 Type: Package
 Title: Synthetic Expression Data for Gene Regulatory Network Inference from the 2009 DREAM4 challenge
-Version: 1.31.0
+Version: 1.31.1
 Date: 2013-03-15
 Author: Paul Shannon
 Maintainer: Paul Shannon <pshannon@systemsbiology.org>
@@ -12,3 +12,4 @@ Description: Simulated expression data for five 10-node, and five 100-node netwo
   (including solutions) from the 2009 DREAM4 challenge.
 License: GPL
 LazyLoad: yes
+PackageStatus: Deprecated
